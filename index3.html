@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>옥스포드 행복테스트</title>
+	<style>
+		#total{ font-size: 2em; margin-top: 2em; }
+		input[type="radio"]{}
+		body,h2,div,p{margin:0; padding:0;}
+		section{margin-bottom: 1em;}
+		h2{margin-bottom: 0.2em;}
+	</style>
+</head>
+<body>
+	<main>
+		<h1>옥스포드 행복테스트</h1>	
+	</main>
+	
+<script>
+var m = document.getElementsByTagName("main")[0];
+var qArr = [
+"나는 자신에 별로 만족하지 않는다.",
+"나는 다른 사람들에 대해 크게 흥미가 있다.",
+"나는 삶이 아주 보람 있다고 느낀다.",
+"나는 거의 모든 사람들에게 아주 따뜻한 감정을 느낀다.",
+"나는 잘 잤다는 기분으로 일어나는 적이 거의 없다.",
+"나는 미리에 대해서 별로 낙관적이지 않다.",
+"나는 매사가 재미있다고 생각한다.",
+"나는 언제나 헌신하며 참여한다.",
+"나는 사는게 좋다.",
+"나는 세상이 좋은 곳이라고 생각하지 않는다.",
+"나는 많이 웃는다.",
+"나는 삶 속에서 모든 일에 만족하다.",
+"나는 내 모습이 매력적이라고 생각하지 않는다.",
+"내가 하고 싶은 일과 내가 한 일 사이에는 격차가 있다.",
+"나는 매우 행복하다.",
+"나는 가끔 어떤 것들에서 아름다움을 발견하다.",
+"나는 언제나 다른 사람들에게 유쾌한 영향을 미친다.",
+"나는 하고 싶은 모든 일에 시간을 할애할 수 있다.",
+"나는 내 삶을 별로 통제하지 못 한다고 느낀다.",
+"나는 어떤 일이나 맡아서 할 수 있다고 느낀다.",
+"나는 정신적으로 완전하게 깨어있다.",
+"나는 기쁨과 환희를 자주 느낀다.",
+"나는 결정을 내리기가 어렵다.",
+"나는 삶에 특별한 의미나 목적을 가지고 있지 않다.",
+"나는 큰 에너지를 가지고 있다고 느낀다.",
+"나는 삶에서 일어나는 사건들에 대개 좋은 영향을 준다.",
+"나는 다른 사람과 즐겁게 지내지 못한다.",
+"나는 별로 건강하다고 느끼지 않는다.",
+"나는 과거에 대해서 특별히 행복한 기억을 갖고 있지 않다.",
+];
+
+var nArray = [0,4,5,9,13,18,22,23,26,27,28];
+var aArray = ["전혀아니다", "조금아니다", "그저그렇다", "조금그렇다", "매우그렇다"];
+
+
+for(var i=0; i<qArr.length; i++){
+	var s = document.createElement("section");
+	var q = document.createElement("h2");
+	q.innerHTML = (i+1) + ". " + qArr[i];
+	s.appendChild(q);
+	for(var j=0; j<5; j++){
+		var o = document.createElement("input");
+		o.className = "q" + i;
+		o.value = j + 1;
+		for(var k=0; k<nArray.length; k++){
+			if(nArray[k] == i){
+				o.value = 5 - j;
+			}
+		}
+		o.type = "radio";
+		o.name = "q" + i;
+		s.appendChild(o);
+		s.innerHTML += aArray[j]+ " ";
+	}
+	m.appendChild(s);
+}
+
+var total = document.createElement("button");
+total.id = "total";
+total.innerHTML = "나의 행복상태는?";
+var tcount = false;
+
+total.onclick = function(){
+	var mark = 0;
+	var fArray = [];
+
+	for(var i=0; i<qArr.length; i++){
+		var t = document.getElementsByClassName("q"+ i);
+		tcount = false;
+		for(j=0; j<t.length; j++){
+			if(t[j].checked == true){
+				mark += Number(t[j].value);
+				tcount = true;
+			}
+			t[j].parentNode.style.background = "none";
+		}
+		if(!tcount){
+			fArray.push(i);
+		}
+	}
+
+	if(fArray.length > 0){
+		for(var j=0; j<fArray.length; j++){
+			var c = document.getElementsByClassName("q" + fArray[j]);	
+			for(var d=0; d<c.length; d++){
+				c[d].parentNode.style.background = 'red';
+			}
+		}
+		total.innerHTML = "아직 부족합니다";
+	}else{
+		var average = mark / 29;
+		var text;
+		if(average >= 4){
+			total.innerHTML = average.toFixed(1) + " 당신은 행복합니다";	
+		}else if(average >=2){
+			total.innerHTML = average.toFixed(1) + " 더 행복할 수 있어요~";	
+		}else{
+			total.innerHTML = average.toFixed(1) + " 기운내세요^^";	
+		}
+	}
+}
+m.appendChild(total);
+
+</script>
+</body>
+</html>
